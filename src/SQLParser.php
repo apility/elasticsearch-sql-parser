@@ -198,14 +198,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         }
                     } else {
@@ -221,14 +220,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         }
                     }
@@ -251,14 +249,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         }
                     } else {
@@ -274,14 +271,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         }
                     }
@@ -303,14 +299,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         }
                     } else {
@@ -326,14 +321,13 @@ class SQLParser
                             $termk = $arr[$i - 1]['base_expr'];
                         }
 
-                        $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                        $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                        $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
-                            $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                            $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         }
                     }
@@ -361,9 +355,8 @@ class SQLParser
                                 $termk .= '.keyword';
                             }
 
-                            $tmp_date_str = str_replace('"', '', $vv['base_expr']);
-                            $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                            $tmp_or['terms'][$termk][] = $tmp_date_str;
+                            $tmp_data_str = trim($vv['base_expr'], '\'"');
+                            $tmp_or['terms'][$termk][] = $tmp_data_str;
                         }
                     }
 
@@ -393,15 +386,13 @@ class SQLParser
                                         $termk .= '.keyword';
                                     }
 
-                                    $tmp_date_str = str_replace('"', '', $vv['base_expr']);
-                                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                                    $tmp_or['bool']['must_not']['terms'][$termk][] = $tmp_date_str;
+                                    $tmp_data_str = trim($vv['base_expr'], '\'"');
+                                    $tmp_or['bool']['must_not']['terms'][$termk][] = $tmp_data_str;
                                 }
                             }
                             break;
                         case 'like':
-                            $tmp_la_str = str_replace('"', '', $arr[$i + 2]['base_expr']);
-                            $tmp_la_str = str_replace("'", "", $tmp_la_str);
+                            $tmp_la_str = trim($arr[$i + 2]['base_expr'], '\'"');
 
                             if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.x') {
                                 $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
@@ -441,10 +432,9 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
-                    $tmp_or['range'][$termk]['gt'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                    $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
+                    $tmp_or['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
                         $tmp_or['range'][$termk]['time_zone'] = "+08:00";
@@ -464,10 +454,9 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
-                    $tmp_or['range'][$termk]['gte'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                    $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
+                    $tmp_or['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
                         $tmp_or['range'][$termk]['time_zone'] = "+08:00";
@@ -487,10 +476,9 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
-                    $tmp_or['range'][$termk]['lt'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                    $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
+                    $tmp_or['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
                         $tmp_or['range'][$termk]['time_zone'] = "+08:00";
@@ -510,10 +498,9 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
-                    $tmp_or['range'][$termk]['lte'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                    $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
+                    $tmp_or['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
                         $tmp_or['range'][$termk]['time_zone'] = "+08:00";
@@ -536,8 +523,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_la_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_la_str = str_replace("'", "", $tmp_la_str);
+                    $tmp_la_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
@@ -561,18 +547,16 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
-                    $tmp_or['range'][$termk]['gte'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                    $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
+                    $tmp_or['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
                         $tmp_or['range'][$termk]['time_zone'] = "+08:00";
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 3]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                    $tmp_or['range'][$termk]['lte'] = $tmp_date_str;
+                    $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
+                    $tmp_or['range'][$termk]['lte'] = $tmp_data_str;
 
                     break;
             }
@@ -687,8 +671,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -709,10 +692,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_tmp]['bool']['should'][] = $term;
                     }
 
@@ -733,8 +716,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str !== $lowerstr) {
                         if ($this->tmp_str === '') {
@@ -755,10 +737,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     }
 
@@ -777,8 +759,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -791,10 +772,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     }
 
@@ -825,8 +806,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -847,10 +827,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     }
 
@@ -871,8 +851,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str !== $lowerstr) {
                         if ($this->tmp_str === '') {
@@ -893,10 +872,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     }
 
@@ -916,8 +895,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -930,10 +908,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     }
 
@@ -964,8 +942,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -986,10 +963,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     }
 
@@ -1009,8 +986,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str !== $lowerstr) {
                         if ($this->tmp_str === '') {
@@ -1031,10 +1007,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     }
 
@@ -1054,8 +1030,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
                         if ($this->tmp_str_filter === '') {
@@ -1068,10 +1043,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_date_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     }
                     unset($term['match_phrase']);
@@ -1130,10 +1105,8 @@ class SQLParser
                                 $termk .= '.keyword';
                             }
 
-                            $tmp_date_str = str_replace('"', '', $vv['base_expr']);
-                            $tmp_date_str = str_replace("'", "", $tmp_date_str);
-
-                            $this->query['query']['bool']['filter']['bool']['should'][$this->count_tmp]['terms'][$termk][] = $tmp_date_str;
+                            $tmp_data_str = trim($vv['base_expr'], '\'"');
+                            $this->query['query']['bool']['filter']['bool']['should'][$this->count_tmp]['terms'][$termk][] = $tmp_data_str;
                         }
                     }
                 } else {
@@ -1147,9 +1120,8 @@ class SQLParser
                                 $termk .= '.keyword';
                             }
 
-                            $tmp_date_str = str_replace('"', '', $vv['base_expr']);
-                            $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                            $this->query['query']['bool']['filter'][$this->count_tmp_filter]['terms'][$termk][] = $tmp_date_str;
+                            $tmp_data_str = trim($vv['base_expr'], '\'"');
+                            $this->query['query']['bool']['filter'][$this->count_tmp_filter]['terms'][$termk][] = $tmp_data_str;
                         }
                     }
                 }
@@ -1199,17 +1171,15 @@ class SQLParser
                                     $termk .= '.keyword';
                                 }
 
-                                $tmp_date_str = str_replace('"', '', $vv['base_expr']);
-                                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not']['terms'][$termk][] = $tmp_date_str;
+                                $tmp_data_str = trim($vv['base_expr'], '\'"');
+                                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not']['terms'][$termk][] = $tmp_data_str;
                             }
                         }
 
                         break;
 
                     case 'like':
-                        $tmp_la_str = str_replace('"', '', $arr[$i + 2]['base_expr']);
-                        $tmp_la_str = str_replace("'", "", $tmp_la_str);
+                        $tmp_la_str = trim($arr[$i + 2]['base_expr'], '\'"');
 
                         if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.x') {
                             $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
@@ -1291,9 +1261,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock !== '' && $this->tmp_lock === $lowerstr) {
@@ -1320,7 +1289,7 @@ class SQLParser
                         }
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gt'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
@@ -1344,7 +1313,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gt'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
@@ -1374,9 +1343,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock !== '' && $this->tmp_lock === $lowerstr) {
@@ -1403,7 +1371,7 @@ class SQLParser
                         }
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gte'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
@@ -1427,7 +1395,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
@@ -1457,9 +1425,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock !== '' && $this->tmp_lock === $lowerstr) {
@@ -1486,7 +1453,7 @@ class SQLParser
                         }
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lt'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
@@ -1508,7 +1475,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lt'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
@@ -1538,9 +1505,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock !== '' && $this->tmp_lock === $lowerstr) {
@@ -1567,7 +1533,7 @@ class SQLParser
                         }
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lte'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
@@ -1591,7 +1557,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lte'] = $tmp_date_str;
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
@@ -1625,8 +1591,7 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_la_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_la_str = str_replace("'", "", $tmp_la_str);
+                $tmp_la_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock !== '' && $this->tmp_lock !== $lowerstr) {
@@ -1717,20 +1682,18 @@ class SQLParser
                     }
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
-                $is_date = strtotime($tmp_date_str) ? strtotime($tmp_date_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
-                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_date_str;
+                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_data_str;
 
                 if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
                 }
 
-                $tmp_date_str = str_replace('"', '', $arr[$i + 3]['base_expr']);
-                $tmp_date_str = str_replace("'", "", $tmp_date_str);
+                $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
 
-                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lte'] = $tmp_date_str;
+                $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lte'] = $tmp_data_str;
 
                 $this->tmp_str = $termk;
                 $this->tmp_lock_str = $lowerstr;
@@ -1932,8 +1895,7 @@ class SQLParser
                                     if (isset($ve[$key_arr[0]]['terms']['field']) && $v['alias']['name'] === $ve[$key_arr[0]]['terms']['field']) {
                                         foreach ($v['sub_tree'] as $ke => $va) {
                                             if ($va['expr_type'] === 'const') {
-                                                $tmp_ps = str_replace('"', '', $va['base_expr']);
-                                                $tmp_ps = str_replace("'", "", $tmp_ps);
+                                                $tmp_ps = trim($va['base_expr'], '\'"');
                                             }
 
                                             if ($va['expr_type'] === 'colref') {
@@ -1961,8 +1923,7 @@ class SQLParser
                                     if (isset($ve[$key_arr[0]]['terms']['field']) && $v['alias']['name'] === $ve[$key_arr[0]]['terms']['field']) {
                                         for ($jj = 0; $jj <= count($v['sub_tree']) - 1; $jj++) {
                                             if ($v['sub_tree'][$jj]['expr_type'] === 'const') {
-                                                $tmp_ps = str_replace('"', '', $v['sub_tree'][$jj]['base_expr']);
-                                                $tmp_ps = str_replace("'", "", $tmp_ps);
+                                                $tmp_ps = trim($v['sub_tree'][$jj]['base_expr'], '\'"');
                                                 $tmp_ps = str_replace("%", "", $tmp_ps);
                                                 $tmp_ps = str_replace("/", "", $tmp_ps);
                                                 $tmp_ps = str_replace("-", "", $tmp_ps);
@@ -2048,7 +2009,7 @@ class SQLParser
                 $termk = $va['base_expr'];
             }
 
-            $this->sort['sort'][][$termk]['order'] = $va['direction'];
+            $this->sort['sort'][][$termk]['order'] = strtolower($va['direction']);
         }
     }
 
@@ -2088,8 +2049,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_da_str = str_replace("'", "", $tmp_da_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have !== $lowerstr) {
                         if ($this->tmp_str_filter_have === '') {
@@ -2110,10 +2070,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_da_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_tmp_have]['bool']['should'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_da_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_tmp_have]['bool']['should'][] = $term;
                     }
 
@@ -2129,8 +2089,7 @@ class SQLParser
                         $termk = $arr[$i - 1]['base_expr'];
                     }
 
-                    $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                    $tmp_da_str = str_replace("'", "", $tmp_da_str);
+                    $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_str_have !== '' && $this->tmp_lock_str_have !== $lowerstr) {
                         if ($this->tmp_str_have === '') {
@@ -2151,10 +2110,10 @@ class SQLParser
                     }
 
                     if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
-                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_da_str;
+                        $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][] = $term;
                     } else {
-                        $term['match_phrase'][$termk]['query'] = $tmp_da_str;
+                        $term['match_phrase'][$termk]['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][] = $term;
                     }
 
@@ -2194,9 +2153,9 @@ class SQLParser
                         if (!is_numeric($vv['base_expr']) && $this->version === '5.x') {
                             $termk .= '.keyword';
                         }
-                        $tmp_da_str = str_replace('"', '', $vv['base_expr']);
-                        $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                        $this->hasAggregrations['having']['filter']['terms'][$termk][] = $tmp_da_str;
+
+                        $tmp_data_str = trim($vv['base_expr'], '\'"');
+                        $this->hasAggregrations['having']['filter']['terms'][$termk][] = $tmp_data_str;
                     }
                 }
 
@@ -2229,9 +2188,9 @@ class SQLParser
                         if (!is_numeric($vv['base_expr']) && $this->version === '5.x') {
                             $termk .= '.keyword';
                         }
-                        $tmp_da_str = str_replace('"', '', $vv['base_expr']);
-                        $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                        $this->hasAggregrations['having']['filter']['bool']['must_not']['terms'][$termk][] = $tmp_da_str;
+
+                        $tmp_data_str = trim($vv['base_expr'], '\'"');
+                        $this->hasAggregrations['having']['filter']['bool']['must_not']['terms'][$termk][] = $tmp_data_str;
                     }
                 }
 
@@ -2247,9 +2206,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                $is_date = strtotime($tmp_da_str) ? strtotime($tmp_da_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have === $lowerstr) {
@@ -2276,7 +2234,7 @@ class SQLParser
                         }
                     }
 
-                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gt'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
@@ -2300,7 +2258,7 @@ class SQLParser
                         $this->count_tmp_filter_have++;
                     }
 
-                    $this->hasAggregrations['having']['filter']['range'][$termk]['gt'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
@@ -2322,9 +2280,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                $is_date = strtotime($tmp_da_str) ? strtotime($tmp_da_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have === $lowerstr) {
@@ -2351,7 +2308,7 @@ class SQLParser
                         }
                     }
 
-                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gte'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
@@ -2375,7 +2332,7 @@ class SQLParser
                         $this->count_tmp_filter_have++;
                     }
 
-                    $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
@@ -2397,9 +2354,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                $is_date = strtotime($tmp_da_str) ? strtotime($tmp_da_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have === $lowerstr) {
@@ -2426,7 +2382,7 @@ class SQLParser
                         }
                     }
 
-                    $this->hasAggregrations['having']['filter']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lt'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
@@ -2448,7 +2404,7 @@ class SQLParser
                         $this->count_tmp_filter_have++;
                     }
 
-                    $this->hasAggregrations['having']['filter']['range'][$termk]['lt'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
@@ -2470,9 +2426,8 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                $is_date = strtotime($tmp_da_str) ? strtotime($tmp_da_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have === $lowerstr) {
@@ -2499,7 +2454,7 @@ class SQLParser
                         }
                     }
 
-                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lte'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
@@ -2523,7 +2478,7 @@ class SQLParser
                         $this->count_tmp_filter_have++;
                     }
 
-                    $this->hasAggregrations['having']['filter']['range'][$termk]['lte'] = $tmp_da_str;
+                    $this->hasAggregrations['having']['filter']['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
                         $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
@@ -2545,8 +2500,7 @@ class SQLParser
                     $termk = $arr[$i - 1]['base_expr'];
                 }
 
-                $tmp_la_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_la_str = str_replace("'", "", $tmp_la_str);
+                $tmp_la_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
                 if (isset($arr[$i + 2]['base_expr']) && strtolower($arr[$i + 2]['base_expr']) === 'or' || isset($arr[$i - 2]['base_expr']) && strtolower($arr[$i - 2]['base_expr']) === 'or') {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_have !== '' && $this->tmp_lock_have !== $lowerstr) {
@@ -2629,20 +2583,18 @@ class SQLParser
                     }
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 1]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
-                $is_date = strtotime($tmp_da_str) ? strtotime($tmp_da_str) : false;
+                $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
+                $is_date = strtotime($tmp_data_str) ? strtotime($tmp_data_str) : false;
 
-                $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_da_str;
+                $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_data_str;
 
                 if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
                     $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
                 }
 
-                $tmp_da_str = str_replace('"', '', $arr[$i + 3]['base_expr']);
-                $tmp_da_str = str_replace("'", "", $tmp_da_str);
+                $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
 
-                $this->hasAggregrations['having']['filter']['range'][$termk]['lte'] = $tmp_da_str;
+                $this->hasAggregrations['having']['filter']['range'][$termk]['lte'] = $tmp_data_str;
                 $this->tmp_str_have = $termk;
                 $this->tmp_lock_str_have = $lowerstr;
                 $this->tmp_lock_have = $lowerstr;
