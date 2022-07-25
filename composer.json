@@ -15,8 +15,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "greenlion/php-sql-parser": "^4.5",
-        "guzzlehttp/guzzle": "7.4.x-dev"
+        "greenlion/php-sql-parser": "^4.5"
     },
     "autoload": {
         "psr-4": {
