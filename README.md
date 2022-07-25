@@ -13,9 +13,8 @@ composer require apility/elasticsearch-sql
 
 use Apility\ElasticSearch\SQLParser;
 
-$parser = new SQLParser;
-$sql = "SELECT * FROM articles WHERE published = 1 ORDER BY updated LIMIT 10";
-$query = $parser->parse($sql);
+$query = "SELECT * FROM articles WHERE published = 1 ORDER BY updated LIMIT 10";
+$parsed = SQLParser::parse($query); // ElasticSearch Query DSL
 ```
 
 ## Example output
