@@ -1,9 +1,9 @@
-# SQL to ElasticSearch Query DSL parser
+# ElasticSearch SQL Parser
 
 ## Installation
 
 ```bash
-composer require apility/elasticsearch-sql
+composer require apility/elasticsearch-sql-parser
 ```
 
 ## Usage
