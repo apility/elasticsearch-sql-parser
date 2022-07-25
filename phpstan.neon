@@ -1,0 +1,5 @@
+parameters:
+    level: 5
+    checkUninitializedProperties: true
+    paths:
+        - src
