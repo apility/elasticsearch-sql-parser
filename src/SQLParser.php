@@ -2659,7 +2659,9 @@ class SQLParser
         }
 
         if (!empty($tmp_source)) {
-            $this->query['_source']['include'] = $tmp_source;
+            if (count($tmp_source) > 1 || $tmp_source[0] !== '*') {
+                $this->query['_source']['include'] = $tmp_source;
+            }
         }
     }
 }
