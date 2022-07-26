@@ -2,6 +2,7 @@
 
 namespace Apility\ElasticSearch;
 
+use Exception;
 use PHPSQLParser\Options;
 use PHPSQLParser\processors\DefaultProcessor;
 
@@ -20,7 +21,7 @@ class SQLParser
     protected array $sort = [];
     protected array $indices = [];
 
-    protected string $version = '5.x';
+    protected string $version = '5.0';
     protected ?string $time_zone;
 
     protected string $firstGroup = '';
@@ -67,20 +68,25 @@ class SQLParser
         #[ArrayShape(['version' => 'string', 'time_zone' => 'string'])]
         array $config = []
     ) {
-        $this->setVersion($config['version'] ?? '8.x');
+        $this->setVersion($config['version'] ?? '8.0');
         $this->time_zone = $config['time_zone'] ?? null;
     }
 
     protected function setVersion(string $version)
     {
-        $version = version_compare($version, '8.x', '>=') ? '8.x' : $version;
-        $version = version_compare($version, '7.x', '>=') ? '7.x' : $version;
-        $version = version_compare($version, '6.x', '>=') ? '6.x' : $version;
-        $version = version_compare($version, '5.x', '>=') ? '5.x' : $version;
+        if (version_compare($version, '5.0.0', '<')) {
+            throw new Exception('SQLParser only support ElasticSearch 5.x and above');
+        }
+
+        $version = version_compare($version, '8.0', '>=') ? '8.0' : $version;
+        $version = (version_compare($version, '7.0', '>=') && version_compare($version, '8.0', '<')) ? '7.0' : $version;
+        $version = (version_compare($version, '6.0', '>=') && version_compare($version, '7.0', '<')) ? '6.0' : $version;
+        $version = version_compare($version, '6.0', '<') ? '5.0' : $version;
+
         $this->version = $version;
     }
 
-    public static function parse(string $sql, array $config = ['version' => '5.x']): array
+    public static function parse(string $sql, array $config = ['version' => '5.0']): array
     {
         return (new static($config))->build($sql);
     }
@@ -217,7 +223,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         } else {
@@ -239,7 +245,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must'][] = $term;
                         } else {
@@ -268,7 +274,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
@@ -290,7 +296,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
@@ -318,7 +324,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
@@ -340,7 +346,7 @@ class SQLParser
 
                         $tmp_data_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                             $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                             $tmp_or['bool']['must_not'][] = $term;
                         } else {
@@ -368,7 +374,7 @@ class SQLParser
 
                     if (isset($arr[$i + 1]['sub_tree']) && !empty($arr[$i + 1]['sub_tree'])) {
                         foreach ($arr[$i + 1]['sub_tree'] as &$vv) {
-                            if (!is_numeric($vv['base_expr']) && $this->version === '8.x') {
+                            if (!is_numeric($vv['base_expr']) && $this->version === '8.0') {
                                 $termk .= '.keyword';
                             }
 
@@ -399,7 +405,7 @@ class SQLParser
                         case 'in':
                             if (isset($arr[$i + 2]['sub_tree']) && !empty($arr[$i + 2]['sub_tree'])) {
                                 foreach ($arr[$i + 2]['sub_tree'] as &$vv) {
-                                    if (!is_numeric($vv['base_expr']) && $this->version === '8.x') {
+                                    if (!is_numeric($vv['base_expr']) && $this->version === '8.0') {
                                         $termk .= '.keyword';
                                     }
 
@@ -411,7 +417,7 @@ class SQLParser
                         case 'like':
                             $tmp_la_str = trim($arr[$i + 2]['base_expr'], '\'"');
 
-                            if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.x') {
+                            if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.0') {
                                 $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                                 $tmp_or['bool']['must_not'][] = $term;
                             } else {
@@ -542,7 +548,7 @@ class SQLParser
 
                     $tmp_la_str = trim($arr[$i + 1]['base_expr'], '\'"');
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                         $tmp_or['bool']['must'][] = $term;
                     } else {
@@ -708,7 +714,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
@@ -753,7 +759,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     } else {
@@ -788,7 +794,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][] = $term;
                     } else {
@@ -843,7 +849,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
@@ -888,7 +894,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
@@ -924,7 +930,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
@@ -979,7 +985,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][$this->count_tmp]['bool']['should'][] = $term;
                     } else {
@@ -1023,7 +1029,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
@@ -1059,7 +1065,7 @@ class SQLParser
                         $this->count_tmp_filter++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                     } else {
@@ -1118,7 +1124,7 @@ class SQLParser
 
                     if (isset($arr[$i + 1]['sub_tree']) && !empty($arr[$i + 1]['sub_tree'])) {
                         foreach ($arr[$i + 1]['sub_tree'] as &$vv) {
-                            if (!is_numeric($vv['base_expr']) && $this->version === '8.x') {
+                            if (!is_numeric($vv['base_expr']) && $this->version === '8.0') {
                                 $termk .= '.keyword';
                             }
 
@@ -1128,12 +1134,12 @@ class SQLParser
                     }
                 } else {
                     if (isset($arr[$i + 1]['sub_tree']) && !empty($arr[$i + 1]['sub_tree'])) {
-                        if ($this->version === '7.x') {
+                        if ($this->version === '7.0') {
                             $this->count_tmp_filter++;
                         }
 
                         foreach ($arr[$i + 1]['sub_tree'] as &$vv) {
-                            if (!is_numeric($vv['base_expr']) && $this->version === '8.x') {
+                            if (!is_numeric($vv['base_expr']) && $this->version === '8.0') {
                                 $termk .= '.keyword';
                             }
 
@@ -1184,7 +1190,7 @@ class SQLParser
                     case 'in':
                         if (isset($arr[$i + 2]['sub_tree']) && !empty($arr[$i + 2]['sub_tree'])) {
                             foreach ($arr[$i + 2]['sub_tree'] as &$vv) {
-                                if (!is_numeric($vv['base_expr']) && $this->version === '8.x') {
+                                if (!is_numeric($vv['base_expr']) && $this->version === '8.0') {
                                     $termk .= '.keyword';
                                 }
 
@@ -1198,7 +1204,7 @@ class SQLParser
                     case 'like':
                         $tmp_la_str = trim($arr[$i + 2]['base_expr'], '\'"');
 
-                        if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.x') {
+                        if (!is_numeric($arr[$i + 2]['base_expr']) && $this->version === '8.0') {
                             $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                             $this->query['query']['filter'][$this->count_tmp_filter]['bool']['must_not'][] = $term;
                         } else {
@@ -1627,7 +1633,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                         $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][] = $term;
                     } else {
@@ -1651,7 +1657,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                         $this->query['query']['filter'][$this->count_tmp_filter]['must'][$this->count_tmp]['bool']['must'][] = $term;
                     } else {
@@ -2086,7 +2092,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_tmp_have]['bool']['should'][] = $term;
                     } else {
@@ -2126,7 +2132,7 @@ class SQLParser
                         $this->count_tmp_filter_have++;
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['match_phrase'][$termk . '.keyword']['query'] = $tmp_data_str;
                         $this->hasAggregrations['having']['filter']['bool']['must'][] = $term;
                     } else {
@@ -2167,7 +2173,7 @@ class SQLParser
 
                 if (isset($arr[$i + 1]['sub_tree']) && !empty($arr[$i + 1]['sub_tree'])) {
                     foreach ($arr[$i + 1]['sub_tree'] as &$vv) {
-                        if (!is_numeric($vv['base_expr']) && $this->version === '5.x') {
+                        if (!is_numeric($vv['base_expr']) && $this->version === '5.0') {
                             $termk .= '.keyword';
                         }
 
@@ -2202,7 +2208,7 @@ class SQLParser
 
                 if (isset($arr[$i + 2]['sub_tree']) && !empty($arr[$i + 2]['sub_tree'])) {
                     foreach ($arr[$i + 2]['sub_tree'] as &$vv) {
-                        if (!is_numeric($vv['base_expr']) && $this->version === '5.x') {
+                        if (!is_numeric($vv['base_expr']) && $this->version === '5.0') {
                             $termk .= '.keyword';
                         }
 
@@ -2536,7 +2542,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                         $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][] = $term;
                     } else {
@@ -2560,7 +2566,7 @@ class SQLParser
                         }
                     }
 
-                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.x') {
+                    if (!is_numeric($arr[$i + 1]['base_expr']) && $this->version === '8.0') {
                         $term['wildcard'][$termk . '.keyword'] = str_replace("%", "*", $tmp_la_str);
                         $this->hasAggregrations['having']['filter']['must'][$this->count_tmp_have]['bool']['must'][] = $term;
                     } else {
