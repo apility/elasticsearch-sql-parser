@@ -76,7 +76,7 @@ class SQLParser
 
     protected function setVersion(string $version)
     {
-        if (version_compare($version, '5.0.0', '<')) {
+        if (version_compare($version, '5.0', '<')) {
             throw new Exception('SQLParser only support ElasticSearch 5.x and above');
         }
 
@@ -88,9 +88,9 @@ class SQLParser
         $this->version = $version;
     }
 
-    public static function parse(string $sql, array $config = ['version' => '5.0']): array
+    public static function parse(string $sql, array $config = ['version' => '5.0']): ParsedResult
     {
-        return (new static($config))->build($sql);
+        return new ParsedResult((new static($config))->build($sql));
     }
 
     protected function build($sql): array
@@ -159,7 +159,7 @@ class SQLParser
         }
 
         $this->indices = array_unique($this->indices);
-        $this->query['index'] = implode(',', $this->indices);
+        $this->query['indices'] = $this->indices;
     }
 
     protected function where($arr)
