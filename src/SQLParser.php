@@ -10,6 +10,8 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class SQLParser
 {
+    const MAX_SIZE = 10_000;
+
     protected array $ast = [];
     protected array $query = [];
 
@@ -29,7 +31,7 @@ class SQLParser
     #[ArrayShape(['from' => 'int', 'size' => 'int'])]
     protected array $limit = [
         'from' => 0,
-        'size' => 0,
+        'size' => SQLParser::MAX_SIZE,
     ];
 
     protected int $count_tmp = 0;
@@ -95,6 +97,8 @@ class SQLParser
     {
         $processor = new DefaultProcessor(new Options([]));
         $this->ast = $processor->process($sql);
+
+        $this->query['size'] = $this->limit['size'] ?? static::MAX_SIZE;
 
         if (isset($this->ast['FROM']) && !empty($this->ast['FROM'])) {
             $this->table($this->ast['FROM']);
