@@ -5,6 +5,8 @@ namespace Apility\ElasticSearch;
 use PHPSQLParser\Options;
 use PHPSQLParser\processors\DefaultProcessor;
 
+use JetBrains\PhpStorm\ArrayShape;
+
 class SQLParser
 {
     protected array $ast = [];
@@ -16,11 +18,14 @@ class SQLParser
     protected array $hasAggregrations = [];
 
     protected array $sort = [];
-    protected $indices = [];
+    protected array $indices = [];
 
     protected string $version = '5.x';
+    protected string $time_zone = 'UTC';
+
     protected string $firstGroup = '';
 
+    #[ArrayShape(['from' => 'int', 'size' => 'int'])]
     protected array $limit = [
         'from' => 0,
         'size' => 0,
@@ -58,9 +63,18 @@ class SQLParser
     protected string $tmp_lock_fi_have = '';
     protected string $tmp_lock_range_have = '';
 
-    protected final function __construct(array $config = ['version' => '5.x'])
-    {
-        $this->version = $config['version'] ?? '5.x';
+    protected final function __construct(
+        #[ArrayShape(['version' => 'string', 'time_zone' => 'UTC'])]
+        array $config = ['version' => '5.x']
+    ) {
+        $version = $config['version'] ?? '5.x';
+        $version = version_compare($version, '8.x', '>=') ? '8.x' : $version;
+        $version = version_compare($version, '7.x', '>=') ? '7.x' : $version;
+        $version = version_compare($version, '6.x', '>=') ? '6.x' : $version;
+        $version = version_compare($version, '5.x', '>=') ? '5.x' : $version;
+
+        $this->time_zone = $config['time_zone'] ?? 'UTC';
+        $this->version = $version;
     }
 
     public static function parse(string $sql, array $config = ['version' => '5.x']): array
@@ -437,7 +451,7 @@ class SQLParser
                     $tmp_or['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
-                        $tmp_or['range'][$termk]['time_zone'] = "+08:00";
+                        $tmp_or['range'][$termk]['time_zone'] = $this->time_zone;
                     }
 
                     break;
@@ -459,7 +473,7 @@ class SQLParser
                     $tmp_or['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
-                        $tmp_or['range'][$termk]['time_zone'] = "+08:00";
+                        $tmp_or['range'][$termk]['time_zone'] = $this->time_zone;
                     }
 
                     break;
@@ -481,7 +495,7 @@ class SQLParser
                     $tmp_or['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
-                        $tmp_or['range'][$termk]['time_zone'] = "+08:00";
+                        $tmp_or['range'][$termk]['time_zone'] = $this->time_zone;
                     }
 
                     break;
@@ -503,7 +517,7 @@ class SQLParser
                     $tmp_or['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
-                        $tmp_or['range'][$termk]['time_zone'] = "+08:00";
+                        $tmp_or['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                     break;
                 case 'like':
@@ -552,7 +566,7 @@ class SQLParser
                     $tmp_or['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($tmp_or['range'][$termk]['time_zone']) && $is_date) {
-                        $tmp_or['range'][$termk]['time_zone'] = "+08:00";
+                        $tmp_or['range'][$termk]['time_zone'] = $this->time_zone;
                     }
 
                     $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
@@ -1292,7 +1306,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str !== $lowerstr) {
@@ -1316,7 +1330,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -1374,7 +1388,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str !== $lowerstr) {
@@ -1398,7 +1412,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -1456,7 +1470,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str === $lowerstr) {
@@ -1478,7 +1492,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -1536,7 +1550,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['bool']['must'][$this->count_fi]['bool']['should'][$this->count_tmp_range]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->query['query']['bool']['filter'][0]) && $this->tmp_lock_str !== '' && $this->tmp_lock_str === $lowerstr) {
@@ -1560,7 +1574,7 @@ class SQLParser
                     $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -1688,7 +1702,7 @@ class SQLParser
                 $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['gte'] = $tmp_data_str;
 
                 if (!isset($this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone']) && $is_date) {
-                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = "+08:00";
+                    $this->query['query']['bool']['filter'][$this->count_tmp_filter]['range'][$termk]['time_zone'] = $this->time_zone;
                 }
 
                 $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
@@ -1955,7 +1969,7 @@ class SQLParser
                                             if ($v['sub_tree'][$jj]['expr_type'] === 'colref') {
                                                 $agg[$kk][$key_arr[0]]['date_histogram']['field'] = $v['sub_tree'][$jj]['base_expr'];
                                                 $agg[$kk][$key_arr[0]]['date_histogram']['format'] = "yyyy-MM-dd";
-                                                $agg[$kk][$key_arr[0]]['date_histogram']['time_zone'] = "+08:00";
+                                                $agg[$kk][$key_arr[0]]['date_histogram']['time_zone'] = $this->time_zone;
                                                 unset($agg[$kk][$key_arr[0]]['terms']);
                                             }
                                         }
@@ -2237,7 +2251,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_str_have !== '' && $this->tmp_lock_str_have !== $lowerstr) {
@@ -2261,7 +2275,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['range'][$termk]['gt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -2311,7 +2325,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_str_have !== '' && $this->tmp_lock_str_have !== $lowerstr) {
@@ -2335,7 +2349,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -2385,7 +2399,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_str_have !== '' && $this->tmp_lock_str_have === $lowerstr) {
@@ -2407,7 +2421,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['range'][$termk]['lt'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -2457,7 +2471,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['bool']['must'][$this->count_fi_have]['bool']['should'][$this->count_tmp_range_have]['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 } else {
                     if (isset($this->hasAggregrations['having']['filter']) && $this->tmp_lock_str_have !== '' && $this->tmp_lock_str_have === $lowerstr) {
@@ -2481,7 +2495,7 @@ class SQLParser
                     $this->hasAggregrations['having']['filter']['range'][$termk]['lte'] = $tmp_data_str;
 
                     if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
-                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
+                        $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = $this->time_zone;
                     }
                 }
 
@@ -2589,7 +2603,7 @@ class SQLParser
                 $this->hasAggregrations['having']['filter']['range'][$termk]['gte'] = $tmp_data_str;
 
                 if (!isset($this->hasAggregrations['having']['filter']['range'][$termk]['time_zone']) && $is_date) {
-                    $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = "+08:00";
+                    $this->hasAggregrations['having']['filter']['range'][$termk]['time_zone'] = $this->time_zone;
                 }
 
                 $tmp_data_str = trim($arr[$i + 3]['base_expr'], '\'"');
